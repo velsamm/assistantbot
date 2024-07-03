@@ -1,0 +1,29 @@
+{
+  "name": "assistant-gpt-bot",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "build": "tsc",
+    "db:create": "touch db/mydb.sqlite",
+    "db": "sqlite3 ./db/mydb.sqlite"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/debug": "4.1.12",
+    "prettier": "3.3.0",
+    "ts-node": "10.9.2",
+    "typescript": "5.4.5"
+  },
+  "dependencies": {
+    "@grammyjs/router": "2.0.0",
+    "debug": "4.3.4",
+    "grammy": "1.23.1",
+    "knex": "3.1.0",
+    "openai": "4.47.3",
+    "sqlite3": "5.1.7"
+  }
+}
