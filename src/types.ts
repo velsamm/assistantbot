@@ -32,3 +32,9 @@ export type MyContext =
     SessionFlavor<SessionData> &
     { assistantContext: AssistantContext } &
     { telegramId: number | undefined; }
+
+export enum MessageType {
+    TEXT = 'text',
+    DOCUMENT = 'document',
+    UNKNOWN = 'unknown'
+}

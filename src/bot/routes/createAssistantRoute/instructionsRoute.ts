@@ -30,7 +30,7 @@ export const instructionsRoute = (router: Router<MyContext>) => {
         const params: CreateAssistantParams = {
             name: name,
             instructions: instructions,
-            // tools: [{ type: "code_interpreter" }],
+            tools: [{ type: "file_search" }],
             // model: "gpt-3.5-turbo"
             model: "gpt-4o"
         }

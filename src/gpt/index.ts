@@ -7,6 +7,7 @@ import { OPENAI_API_KEY } from "../constants";
 import { RunCreateParamsNonStreaming } from "openai/src/resources/beta/threads/runs/runs";
 import { createDebug } from "../createDebug";
 import { MissingAssistantError, MissingThreadError } from "../store/errors";
+import { Uploadable } from "openai/uploads";
 
 const openai = new OpenAI({
     apiKey: OPENAI_API_KEY
@@ -33,12 +34,17 @@ export class Assistant {
         }
     }
 
-    async addMessageToThread(message: string) {
+    uploadFile(file: Uploadable) {
+        return openai.files.create({ file, purpose: 'assistants' })
+    }
+
+    async addMessageToThread(message: string, attachments?: Array<MessageCreateParams.Attachment> | null) {
         this.checkAssistant()
 
         const body: MessageCreateParams = {
             role: 'user',
-            content: message
+            content: message,
+            attachments
         }
 
         await openai.beta.threads.messages.create(this.thread!.id, body)

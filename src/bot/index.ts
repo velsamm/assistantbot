@@ -9,7 +9,7 @@ import {
     getThreadGpt
 } from '../store'
 import { AssistantExistsError, MissingAssistantError, MissingThreadError, ThreadExistsError } from '../store/errors'
-import type { MyContext, SessionData } from '../types'
+import { MyContext, SessionData } from '../types'
 import { createAssistantRoute } from "./routes/createAssistantRoute";
 import { useAssistantRoute } from "./routes/useAssistantRoute";
 import { db } from "../store/db/db";
