@@ -4,7 +4,8 @@ import { Assistant, RunCallbacks } from '../../../gpt'
 import { buildTelegramChatAssignment } from '../../../store'
 import { createDebug } from '../../../createDebug'
 import { downloadFile } from '../../../utils/downloadFile'
-import { BASE_BOT_API_URL, BOT_TOKEN } from '../../../constants'
+import { BASE_BOT_API_URL, BOT_TOKEN, TELEGRAM_MAX_MESSAGE_SIZE } from '../../../constants'
+import { InputFile } from "grammy";
 
 const useAssistantRouteDebug = createDebug('bot:useAssistantRoute')
 
@@ -125,10 +126,17 @@ useAssistantRoute.otherwise(async (ctx, next) => {
 
     const callbacks: RunCallbacks = {
         onComplete: async (text: string) => {
-            await ctx.reply(text, {
-                message_thread_id: telegramThreadId,
-                parse_mode: 'Markdown',
-            })
+            if (text.length > TELEGRAM_MAX_MESSAGE_SIZE) {
+                const uint8Array = new TextEncoder().encode(text)
+                await ctx.replyWithDocument(new InputFile(uint8Array, 'gpt_response.md'), {
+                    message_thread_id: telegramThreadId
+                })
+            } else {
+                await ctx.reply(text, {
+                    message_thread_id: telegramThreadId,
+                    parse_mode: 'Markdown',
+                })
+            }
         },
         onFail: async (text) => {
             await ctx.reply(text, {
